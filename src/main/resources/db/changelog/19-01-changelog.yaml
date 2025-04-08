@@ -1,0 +1,141 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1742392990855-1
+      author: denis
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_dishes
+                  name: id
+                  type: BIGINT
+              - column:
+                  name: name
+                  type: VARCHAR(255)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: calories
+                  type: DOUBLE
+              - column:
+                  constraints:
+                    nullable: false
+                  name: proteins
+                  type: DOUBLE
+              - column:
+                  constraints:
+                    nullable: false
+                  name: fats
+                  type: DOUBLE
+              - column:
+                  constraints:
+                    nullable: false
+                  name: carbohydrates
+                  type: DOUBLE
+              - column:
+                  name: meal_id
+                  type: BIGINT
+            tableName: dishes
+  - changeSet:
+      id: 1742392990855-2
+      author: denis
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_meals
+                  name: id
+                  type: BIGINT
+              - column:
+                  name: created_at
+                  type: DATE
+              - column:
+                  name: user_id
+                  type: BIGINT
+            tableName: meals
+  - changeSet:
+      id: 1742392990855-3
+      author: denis
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_users
+                  name: id
+                  type: BIGINT
+              - column:
+                  name: name
+                  type: VARCHAR(255)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: email
+                  type: VARCHAR(255)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: age
+                  type: INT
+              - column:
+                  name: weight
+                  type: DOUBLE
+              - column:
+                  name: height
+                  type: DOUBLE
+              - column:
+                  name: daily_calorie_intake
+                  type: DOUBLE
+              - column:
+                  name: gender
+                  type: VARCHAR(255)
+              - column:
+                  name: goal
+                  type: VARCHAR(255)
+            tableName: users
+  - changeSet:
+      id: 1742392990855-4
+      author: denis
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addUniqueConstraint:
+            columnNames: email
+            constraintName: uc_users_email
+            tableName: users
+  - changeSet:
+      id: 1742392990855-5
+      author: denis
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: meal_id
+            baseTableName: dishes
+            constraintName: FK_DISHES_ON_MEAL
+            referencedColumnNames: id
+            referencedTableName: meals
+  - changeSet:
+      id: 1742392990855-6
+      author: denis
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: user_id
+            baseTableName: meals
+            constraintName: FK_MEALS_ON_USER
+            referencedColumnNames: id
+            referencedTableName: users
+
