@@ -12,7 +12,11 @@ import org.example.calorietracker.model.GoalType;
 import java.util.List;
 
 /**
- * DTO for {@link org.example.calorietracker.model.User}
+ * Data Transfer Object (DTO) для пользователя.
+ * Содержит все необходимые данные для отображения пользователя в системе,
+ * включая персональные данные и цели пользователя.
+ *
+ * @see org.example.calorietracker.model.User Сущность пользователя в модели данных
  */
 @Setter
 @Getter
@@ -21,18 +25,17 @@ import java.util.List;
 public class UserDTO {
     private Long id;
 
+    /**
+     * Полное имя пользователя.
+     */
     private String name;
 
     private String email;
 
-    @Min(1)
-    @Max(100)
     private Integer age;
 
-    @Min(5)
     private Double weight;
 
-    @Min(30)
     private Double height;
 
     private Double dailyCalorieIntake;

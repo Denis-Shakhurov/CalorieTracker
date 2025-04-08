@@ -6,7 +6,6 @@ import org.example.calorietracker.dto.meal.MealCreateDTO;
 import org.example.calorietracker.dto.meal.MealDTO;
 import org.example.calorietracker.exception.ResourceNotFoundException;
 import org.example.calorietracker.mapper.MealMapper;
-import org.example.calorietracker.model.Dish;
 import org.example.calorietracker.model.Meal;
 import org.example.calorietracker.model.User;
 import org.example.calorietracker.repository.MealRepository;
@@ -17,6 +16,11 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Сервис для работы с приемами пищи.
+ * Обеспечивает бизнес-логику для управления приемами пищи,
+ * формирования отчетов и анализа питания.
+ */
 @Service
 @RequiredArgsConstructor
 public class MealService {
@@ -25,12 +29,24 @@ public class MealService {
     private final UserService userService;
     private final MealMapper mealMapper;
 
+    /**
+     * Получает прием пищи по идентификатору.
+     *
+     * @param id идентификатор приема пищи
+     * @return DTO приема пищи
+     * @throws ResourceNotFoundException если прием пищи не найден
+     */
     public MealDTO getById(Long id) throws ResourceNotFoundException {
         Meal meal = mealRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Meal not found"));
         return mealMapper.map(meal);
     }
 
+    /**
+     * Получает список всех приемов пищи.
+     *
+     * @return список DTO всех приемов пищи
+     */
     public List<MealDTO> getAll() {
         List<Meal> meals = mealRepository.findAll();
         return meals.stream()
@@ -38,6 +54,13 @@ public class MealService {
                 .toList();
     }
 
+    /**
+     * Создает новый прием пищи.
+     *
+     * @param createDTO DTO с данными для создания приема пищи
+     * @return DTO созданного приема пищи
+     * @throws ResourceNotFoundException если пользователь не найден
+     */
     public MealDTO create(MealCreateDTO createDTO) {
         User user = userRepository.findById(createDTO.getUserId())
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
@@ -49,12 +72,23 @@ public class MealService {
         return mealMapper.map(meal);
     }
 
+    /**
+     * Удаляет прием пищи.
+     *
+     * @param id идентификатор удаляемого приема пищи
+     * @throws ResourceNotFoundException если прием пищи не найден
+     */
     public void delete(Long id) throws ResourceNotFoundException {
         mealRepository.deleteById(id);
     }
 
     /**
-     * Получить отчет за день: список приемов пищи и общее количество калорий.
+     * Формирует дневной отчет о питании.
+     *
+     * @param userId идентификатор пользователя
+     * @param date дата для формирования отчета
+     * @return отчет с приемами пищи и суммарной калорийностью
+     * @throws ResourceNotFoundException если пользователь не найден
      */
     public DailyReport getDailyReport(Long userId, LocalDate date) throws ResourceNotFoundException {
         // Получаем все приемы пищи за день
@@ -70,7 +104,12 @@ public class MealService {
     }
 
     /**
-     * Проверить, уложился ли пользователь в дневную норму калорий.
+     * Проверяет, не превышена ли дневная норма калорий.
+     *
+     * @param userId идентификатор пользователя
+     * @param date дата для проверки
+     * @return true если норма не превышена, false в противном случае
+     * @throws ResourceNotFoundException если пользователь не найден
      */
     public boolean isWithinDailyLimit(Long userId, LocalDate date) {
         double dailyIntake = userService.getDailyCalorieIntake(userId);
@@ -79,18 +118,14 @@ public class MealService {
     }
 
     /**
-     * Получить общее количество калорий за день.
-     */
-//    public double getTotalCaloriesConsumed(Long userId, LocalDate date) {
-//        List<Meal> meals = mealRepository.findByUserIdAndCreatedAt(userId, date);
-//        return meals.stream()
-//                .flatMap(meal -> meal.getDishes().stream())
-//                .mapToDouble(Dish::getCalories)
-//                .sum();
-//    }
-
-    /**
-     * Получить историю питания за несколько дней.
+     * Получает историю питания за указанный период.
+     *
+     * @param userId идентификатор пользователя
+     * @param startDate начальная дата периода (включительно)
+     * @param endDate конечная дата периода (включительно)
+     * @return список дневных отчетов за период
+     * @throws ResourceNotFoundException если пользователь не найден
+     * @throws IllegalArgumentException если даты некорректны (startDate > endDate)
      */
     public List<DailyReport> getNutritionHistory(
             Long userId, LocalDate startDate, LocalDate endDate) throws ResourceNotFoundException{
