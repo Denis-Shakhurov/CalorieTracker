@@ -8,7 +8,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.example.calorietracker.model.GenderType;
 import org.example.calorietracker.model.GoalType;
-import org.openapitools.jackson.nullable.JsonNullable;
 
 /**
  * DTO for {@link org.example.calorietracker.model.User}
@@ -17,22 +16,22 @@ import org.openapitools.jackson.nullable.JsonNullable;
 @AllArgsConstructor
 public class UserUpdateDTO {
     @NotBlank
-    private JsonNullable<String> name;
+    private String name;
 
     @Email
-    private JsonNullable<String> email;
+    private String email;
 
     @Min(1)
     @Max(100)
-    private JsonNullable<Integer> age;
+    private Integer age;
 
     @Min(5)
-    private JsonNullable<Double> weight;
+    private Double weight;
 
     @Min(30)
-    private JsonNullable<Double> height;
+    private Double height;
 
-    private JsonNullable<GenderType> gender;
+    private GenderType gender;
 
-    private JsonNullable<GoalType> goal;
+    private GoalType goal;
 }

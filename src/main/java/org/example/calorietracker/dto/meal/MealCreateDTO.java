@@ -1,5 +1,6 @@
 package org.example.calorietracker.dto.meal;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,6 +16,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class MealCreateDTO {
+    @NotNull
     private Long userId;
 
     private List<Long> dishIds;

@@ -1,5 +1,6 @@
 package org.example.calorietracker.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,6 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class DailyReport {
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private LocalDate date;
     private List<MealDTO> meals;
     private double totalCalories;

@@ -8,10 +8,8 @@ import org.example.calorietracker.exception.ResourceNotFoundException;
 import org.example.calorietracker.mapper.DishMapper;
 import org.example.calorietracker.model.Dish;
 import org.example.calorietracker.model.Meal;
-import org.example.calorietracker.model.User;
 import org.example.calorietracker.repository.DishRepository;
 import org.example.calorietracker.repository.MealRepository;
-import org.example.calorietracker.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,7 +21,7 @@ public class DishService {
     private final MealRepository mealRepository;
     private final DishMapper dishMapper;
 
-    public DishDTO getById(Long id) throws ResourceNotFoundException {
+    public DishDTO getById(Long id) {
         Dish dish = dishRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Dish not found"));
         return dishMapper.map(dish);
@@ -54,6 +52,7 @@ public class DishService {
     public DishDTO update(DishUpdateDTO updateDTO, Long id) throws ResourceNotFoundException {
         Dish dish = dishRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Dish not found"));
+
         dishMapper.update(updateDTO, dish);
         dishRepository.save(dish);
         return dishMapper.map(dish);

@@ -56,7 +56,7 @@ public class MealService {
     /**
      * Получить отчет за день: список приемов пищи и общее количество калорий.
      */
-    public DailyReport getDailyReport(Long userId, LocalDate date) {
+    public DailyReport getDailyReport(Long userId, LocalDate date) throws ResourceNotFoundException {
         // Получаем все приемы пищи за день
         List<Meal> meals = mealRepository.findByUserIdAndCreatedAt(userId, date);
         List<MealDTO> mealDTOS = meals.stream()
@@ -92,7 +92,8 @@ public class MealService {
     /**
      * Получить историю питания за несколько дней.
      */
-    public List<DailyReport> getNutritionHistory(Long userId, LocalDate startDate, LocalDate endDate) {
+    public List<DailyReport> getNutritionHistory(
+            Long userId, LocalDate startDate, LocalDate endDate) throws ResourceNotFoundException{
         List<LocalDate> dates = startDate.datesUntil(endDate.plusDays(1))
                 .collect(Collectors.toList());
 

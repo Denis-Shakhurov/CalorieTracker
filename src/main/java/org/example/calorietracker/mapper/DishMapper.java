@@ -34,6 +34,7 @@ public abstract class DishMapper {
     @Mapping(target = "meal", source = "mealId")
     public abstract Dish map(DishCreateDTO dishCreateDTO);
 
+    @Mapping(target = "meal", source = "mealId")
     public abstract void update(DishUpdateDTO dishUpdateDTO, @MappingTarget Dish dish);
 
     public Meal longToMeal(Long mealId) {

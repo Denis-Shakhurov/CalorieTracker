@@ -4,28 +4,30 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import org.openapitools.jackson.nullable.JsonNullable;
+import lombok.NoArgsConstructor;
 
 /**
  * DTO for {@link org.example.calorietracker.model.Dish}
  */
 @AllArgsConstructor
+@NoArgsConstructor
 @Getter
 public class DishUpdateDTO {
-    private JsonNullable<Long> id;
-
     @NotBlank
-    private JsonNullable<String> name;
+    private String name;
 
     @Min(0)
-    private JsonNullable<Double> calories;
+    private Double calories;
 
     @Min(0)
-    private JsonNullable<Double> proteins;
+    private Double proteins;
 
     @Min(0)
-    private JsonNullable<Double> fats;
+    private Double fats;
 
     @Min(0)
-    private JsonNullable<Double> carbohydrates;
+    private Double carbohydrates;
+
+    @Min(0)
+    private Long mealId;
 }
